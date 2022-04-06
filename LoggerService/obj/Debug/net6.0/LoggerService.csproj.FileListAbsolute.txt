@@ -1,0 +1,17 @@
+C:\Users\USER\source\repos\AccountOwnerServer\LoggerService\bin\Debug\net6.0\LoggerService.deps.json
+C:\Users\USER\source\repos\AccountOwnerServer\LoggerService\bin\Debug\net6.0\LoggerService.dll
+C:\Users\USER\source\repos\AccountOwnerServer\LoggerService\bin\Debug\net6.0\LoggerService.pdb
+C:\Users\USER\source\repos\AccountOwnerServer\LoggerService\bin\Debug\net6.0\Contracts.dll
+C:\Users\USER\source\repos\AccountOwnerServer\LoggerService\bin\Debug\net6.0\Entities.dll
+C:\Users\USER\source\repos\AccountOwnerServer\LoggerService\bin\Debug\net6.0\Contracts.pdb
+C:\Users\USER\source\repos\AccountOwnerServer\LoggerService\bin\Debug\net6.0\Entities.pdb
+C:\Users\USER\source\repos\AccountOwnerServer\LoggerService\obj\Debug\net6.0\LoggerService.csproj.AssemblyReference.cache
+C:\Users\USER\source\repos\AccountOwnerServer\LoggerService\obj\Debug\net6.0\LoggerService.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USER\source\repos\AccountOwnerServer\LoggerService\obj\Debug\net6.0\LoggerService.AssemblyInfoInputs.cache
+C:\Users\USER\source\repos\AccountOwnerServer\LoggerService\obj\Debug\net6.0\LoggerService.AssemblyInfo.cs
+C:\Users\USER\source\repos\AccountOwnerServer\LoggerService\obj\Debug\net6.0\LoggerService.csproj.CoreCompileInputs.cache
+C:\Users\USER\source\repos\AccountOwnerServer\LoggerService\obj\Debug\net6.0\LoggerService.csproj.CopyComplete
+C:\Users\USER\source\repos\AccountOwnerServer\LoggerService\obj\Debug\net6.0\LoggerService.dll
+C:\Users\USER\source\repos\AccountOwnerServer\LoggerService\obj\Debug\net6.0\refint\LoggerService.dll
+C:\Users\USER\source\repos\AccountOwnerServer\LoggerService\obj\Debug\net6.0\LoggerService.pdb
+C:\Users\USER\source\repos\AccountOwnerServer\LoggerService\obj\Debug\net6.0\ref\LoggerService.dll
