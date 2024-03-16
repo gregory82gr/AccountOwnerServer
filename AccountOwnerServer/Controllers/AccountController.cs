@@ -102,5 +102,29 @@ namespace AccountOwnerServer.Controllers
             }
         }
 
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteAccount(Guid id)
+        {
+            try
+            {
+                var account = _repository.Account.GetAccountById(id);
+                if (account == null)
+                {
+                    _logger.LogError($"Account with id: {id}, hasn't been found in db.");
+                    return NotFound();
+                }
+
+                _repository.Account.DeleteAccount(account);
+                _repository.Save();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside DeleteOwner action: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }
