@@ -23,8 +23,11 @@ namespace AccountOwnerServer.Controllers
 
         [HttpGet] 
         public IActionResult GetAllOwners() 
-        { 
-            try 
+        {
+            //return NotFound();
+            //return StatusCode(500, "Some message");
+            //return BadRequest("This is bad request");
+            try
             { 
                 var owners = _repository.Owner.GetAllOwners(); 
                 _logger.LogInfo($"Returned all owners from database.");
@@ -95,6 +98,7 @@ namespace AccountOwnerServer.Controllers
         [HttpPost]
         public IActionResult CreateOwner([FromBody] OwnerForCreationDto owner)
         {
+            //return BadRequest("This is bad request");
             try
             {
                 if (owner is null)

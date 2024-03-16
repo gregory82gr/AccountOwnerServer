@@ -3,6 +3,7 @@ using LoggerService;
 using Microsoft.EntityFrameworkCore;
 using Entities;
 using Repository;
+using Microsoft.OpenApi.Models;
 
 namespace AccountOwnerServer.Extensions
 {
@@ -43,6 +44,15 @@ namespace AccountOwnerServer.Extensions
         public static void ConfigureRepositoryWrapper(this IServiceCollection services) 
         { 
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>(); 
+        }
+
+        public static void ConfigureSwagger(this IServiceCollection services)
+        {
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
         }
     }
 }
