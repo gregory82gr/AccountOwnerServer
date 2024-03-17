@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AccountOwnerServer.Validation;
+using AutoMapper;
 using Contracts;
 using Entities.DataTransferObjects;
 using Entities.Models;
@@ -13,11 +14,13 @@ namespace AccountOwnerServer.Controllers
         private ILoggerManager _logger;
         private IRepositoryWrapper _repository;
         private IMapper _mapper;
+        private readonly OwnerIdValidation _validation;
         public AccountController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper)
         {
             _logger = logger;
             _repository = repository;
             _mapper = mapper;
+            _validation = new OwnerIdValidation();
         }
 
         [HttpGet]
@@ -85,6 +88,7 @@ namespace AccountOwnerServer.Controllers
                     _logger.LogError("Invalid account object sent from client.");
                     return BadRequest("Invalid model object");
                 }
+               
 
                 var accountEntity = _mapper.Map<Account>(account);
 
@@ -153,7 +157,11 @@ namespace AccountOwnerServer.Controllers
                     _logger.LogError($"Account with id: {id}, hasn't been found in db.");
                     return NotFound();
                 }
-
+                if (!_validation.IsValid(account.OwnerId.ToString()))
+                {
+                    ModelState.AddModelError("AccountNumber", "Account Number is invalid");
+                    return BadRequest();
+                }
                 _repository.Account.DeleteAccount(account);
                 _repository.Save();
 
