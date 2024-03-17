@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Entities;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -13,7 +14,7 @@ namespace Repository
 
         public IEnumerable<Account> GetAllAccounts()
         {
-            return FindAll()
+            return FindAll().Include("Owner")
                 .OrderByDescending(ow => ow.DateCreated).ThenBy(ow => ow.OwnerId)
                 .ToList();
         }

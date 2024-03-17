@@ -15,9 +15,11 @@ namespace AccountOwnerServer
 
             CreateMap<OwnerForUpdateDto, Owner>();
 
-            CreateMap<Account, AccountDto>();
+            CreateMap<Account, AccountDto>().ForMember(dest=>dest.Owner,act=>act.MapFrom(src=>src.Owner.Name));
 
             CreateMap<AccountForCreationDto, Account>();
+
+            CreateMap<AccountForUpdateDto, Account>();
         }
     }
 }

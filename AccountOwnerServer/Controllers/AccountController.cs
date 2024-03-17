@@ -103,6 +103,45 @@ namespace AccountOwnerServer.Controllers
         }
 
 
+        [HttpPut("{id}")]
+        public IActionResult UpdateAccount(Guid id, [FromBody] AccountForUpdateDto account)
+        {
+            try
+            {
+                if (account is null)
+                {
+                    _logger.LogError("Account object sent from client is null.");
+                    return BadRequest("Account object is null");
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogError("Invalid Account object sent from client.");
+                    return BadRequest("Invalid model object");
+                }
+
+                var accountEntity = _repository.Account.GetAccountById(id);
+                if (accountEntity is null)
+                {
+                    _logger.LogError($"Account with id: {id}, hasn't been found in db.");
+                    return NotFound();
+                }
+
+                _mapper.Map(account, accountEntity);
+
+                _repository.Account.UpdateAccount(accountEntity);
+                _repository.Save();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside UpdateOwner action: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+
         [HttpDelete("{id}")]
         public IActionResult DeleteAccount(Guid id)
         {
