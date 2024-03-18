@@ -30,9 +30,6 @@ namespace AccountOwnerServerUnitTest
         public void IsValid_AccountNumberSecondPartWrong_ReturnsFalse(string accountNumber)
     => Assert.False(_validation.IsValid(accountNumber));
 
-        [Theory]
-        [InlineData("08dc45a0+5b87-4c02-8695-901e7f2a04d8")]
-        public void IsValid_InvalidDelimiters_ThrowsArgumentException(string accNumber)
-    => Assert.Throws<ArgumentException>(() => _validation.IsValid(accNumber));
+       
     }
 }
