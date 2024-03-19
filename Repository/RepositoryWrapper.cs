@@ -7,7 +7,8 @@ namespace Repository
     { 
         private RepositoryContext _repoContext; 
         private IOwnerRepository _owner; 
-        private IAccountRepository _account; 
+        private IAccountRepository _account;
+        private IUserInfoRepository _userInfo;
         public IOwnerRepository Owner 
         { 
             get 
@@ -30,8 +31,20 @@ namespace Repository
                 } 
                 return _account; 
             } 
-        } 
-        
+        }
+
+        public IUserInfoRepository UserInfo
+        {
+            get
+            {
+                if (_userInfo == null)
+                {
+                    _userInfo = new UserInfoRepository(_repoContext);
+                }
+                return _userInfo;
+            }
+        }
+
         public RepositoryWrapper(RepositoryContext repositoryContext) 
         { 
             _repoContext = repositoryContext; 

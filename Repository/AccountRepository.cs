@@ -20,7 +20,7 @@ namespace Repository
         }
         public Account GetAccountById(Guid accountId)
         {
-            return FindByCondition(account => account.Id.Equals(accountId))
+            return FindByCondition(account => account.Id.Equals(accountId)).Include("Owner")
                 .FirstOrDefault();
         }
         public IEnumerable<Account> AccountsByOwner(Guid ownerId) =>
