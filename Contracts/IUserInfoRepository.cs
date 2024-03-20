@@ -10,5 +10,9 @@ namespace Contracts
     public interface IUserInfoRepository
     {
         UserInfo GetUser(string email, string password);
+
+        UserInfo GetUserByUserName(string username);
+
+        void UpdateUser(UserInfo userInfo);
     }
 }
