@@ -3,12 +3,15 @@ using AutoMapper;
 using Contracts;
 using Entities.DataTransferObjects;
 using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccountOwnerServer.Controllers
 {
+    
     [Route("api/account")]
     [ApiController]
+    [Authorize(Roles ="Manager")]
     public class AccountController :  ControllerBase
     {
         private ILoggerManager _logger;
@@ -24,6 +27,7 @@ namespace AccountOwnerServer.Controllers
         }
 
         [HttpGet]
+        //[AllowAnonymous]
         public IActionResult GetAllAccounts()
         {
             //return NotFound();
@@ -151,17 +155,19 @@ namespace AccountOwnerServer.Controllers
         {
             try
             {
+                if (!_validation.IsValid(id.ToString()))
+                {
+                    _logger.LogError($"Account with id: {id}, hasn't been found in db.");
+                    ModelState.AddModelError("AccountNumber", "Account Number is invalid");
+                    return BadRequest();
+                }
                 var account = _repository.Account.GetAccountById(id);
                 if (account == null)
                 {
                     _logger.LogError($"Account with id: {id}, hasn't been found in db.");
                     return NotFound();
                 }
-                if (!_validation.IsValid(account.OwnerId.ToString()))
-                {
-                    ModelState.AddModelError("AccountNumber", "Account Number is invalid");
-                    return BadRequest();
-                }
+                
                 _repository.Account.DeleteAccount(account);
                 _repository.Save();
 
