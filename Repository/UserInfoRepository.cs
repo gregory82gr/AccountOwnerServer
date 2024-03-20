@@ -23,5 +23,13 @@ namespace Repository
             return  FindByCondition(account => account.Email.Equals(email) && account.Password.Equals(password)).FirstOrDefault();
             
         }
+
+        public UserInfo GetUserByUserName(string username)
+        {
+            return FindByCondition(account => account.UserName.Equals(username)).FirstOrDefault();
+
+        }
+
+        public void UpdateUser(UserInfo userInfo) => Update(userInfo);
     }
 }

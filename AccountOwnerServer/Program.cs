@@ -1,4 +1,5 @@
 using AccountOwnerServer.Extensions;
+using Contracts;
 using Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NLog;
+using Repository;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +42,7 @@ builder.Services.AddAuthentication(opt => {
         };
     });
 
+builder.Services.AddTransient<ITokenService, TokenService>();
 
 builder.Services.AddControllers();
 

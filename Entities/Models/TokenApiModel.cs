@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Models
 {
-    public class AuthenticatedResponse
+    public class TokenApiModel
     {
         public string? AccessToken { get; set; }
         public string? RefreshToken { get; set; }

@@ -11,6 +11,7 @@ namespace AccountOwnerServer.Controllers
     
     [Route("api/account")]
     [ApiController]
+    [Authorize(Roles ="Manager")]
     public class AccountController :  ControllerBase
     {
         private ILoggerManager _logger;
@@ -25,8 +26,8 @@ namespace AccountOwnerServer.Controllers
             _validation = new OwnerIdValidation();
         }
 
-        [HttpGet, Authorize]
-        
+        [HttpGet]
+        //[AllowAnonymous]
         public IActionResult GetAllAccounts()
         {
             //return NotFound();
