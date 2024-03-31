@@ -21,7 +21,8 @@ namespace AccountOwnerServerUnitTest
         private Mock<ILoggerManager> _logger;
         private IRepositoryWrapper _repository;
         private Mock<IMapper> _mapper;
-        
+        private Mock<IUnitOfWork> _unitOfWork;
+
 
         public OwnerControllerTests()
         {
@@ -29,8 +30,9 @@ namespace AccountOwnerServerUnitTest
             _mockRepo = new Mock<IRepositoryWrapper>();
             _logger = new Mock<ILoggerManager>();
             _mapper = new Mock<IMapper>();
+            _unitOfWork = new Mock<IUnitOfWork>();
 
-            _controller = new OwnerController(_logger.Object, _mockRepo.Object, _mapper.Object);
+            _controller = new OwnerController(_logger.Object, _mockRepo.Object, _mapper.Object, _unitOfWork.Object);
         }
 
         [Fact]

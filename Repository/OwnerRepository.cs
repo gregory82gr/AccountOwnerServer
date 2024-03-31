@@ -14,7 +14,7 @@ namespace Repository
 
         public IEnumerable<Owner> GetAllOwners()
         {
-            return FindAll()
+            return FindAll().Include(ac => ac.Accounts)
                 .OrderBy(ow => ow.Name)
                 .ToList();
         }
