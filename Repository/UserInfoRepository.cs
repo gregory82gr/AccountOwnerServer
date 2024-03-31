@@ -18,6 +18,13 @@ namespace Repository
         }
 
 
+        public IEnumerable<UserInfo> GetAllUsers()
+        {
+            return FindAll()
+                .OrderBy(ow => ow.UserName)
+                .ToList();
+        }
+
         public UserInfo GetUser(string email, string password)
         {
             return  FindByCondition(account => account.Email.Equals(email) && account.Password.Equals(password)).FirstOrDefault();

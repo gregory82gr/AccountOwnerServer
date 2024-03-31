@@ -19,6 +19,7 @@ builder.Services.ConfigureIISIntegration();
 builder.Services.ConfigureLoggerService();
 builder.Services.ConfigureMySqlContext(builder.Configuration);
 builder.Services.ConfigureRepositoryWrapper();
+builder.Services.ConfigureRepositoryWrapperAsync();
 builder.Services.ConfigureSwagger();
 builder.Services.AddAutoMapper(typeof(Program));
 
