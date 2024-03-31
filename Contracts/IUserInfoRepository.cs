@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Contracts
 {
-    public interface IUserInfoRepository
+    public interface IUserInfoRepository : IRepositoryBase<UserInfo>
     {
         UserInfo GetUser(string email, string password);
 
