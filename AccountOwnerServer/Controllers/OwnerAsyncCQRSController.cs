@@ -45,7 +45,7 @@ namespace AccountOwnerServer.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddOwner([FromBody] OwnerForCreationDto owner)
+        public async Task<ActionResult> CreateOwner([FromBody] OwnerForCreationDto owner)
         {
             var ownerEntity = _mapper.Map<Owner>(owner);
 
