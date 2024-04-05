@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DataTransferObjects;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,9 @@ namespace Contracts
         void CreateOwner(Owner owner);
         void UpdateOwner(Owner owner);
         void DeleteOwner(Owner owner);
+        Task EventOccured(OwnerDto owner, string evt);
+
+
+
     }
 }

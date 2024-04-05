@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities;
+using Entities.DataTransferObjects;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -46,6 +47,19 @@ namespace Repository
         public void DeleteOwner(Owner owner)
         {
             Delete(owner);
+        }
+
+        public async Task EventOccured(OwnerDto owner, string evt)
+        { 
+            var ownerForModification = await GetOwnerByIdAsync(owner.Id);
+            if (ownerForModification != null)
+            { 
+                ownerForModification.Name  +=  $" evt: {evt}";
+                RepositoryContext.ChangeTracker.Clear();
+                UpdateOwner(ownerForModification);
+                RepositoryContext.SaveChanges();
+            }
+            await Task.CompletedTask;
         }
     }
 }
