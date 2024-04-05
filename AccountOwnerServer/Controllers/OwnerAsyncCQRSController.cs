@@ -1,4 +1,5 @@
-﻿using AccountOwnerServer.Owners.Commands;
+﻿using AccountOwnerServer.Notifications;
+using AccountOwnerServer.Owners.Commands;
 using AccountOwnerServer.Owners.Queries;
 using AutoMapper;
 using Contracts;
@@ -62,8 +63,10 @@ namespace AccountOwnerServer.Controllers
             }
 
             await _mediator.Send(new CreateOwnerCommand(ownerEntity));
-
+            
             var createdOwner = _mapper.Map<OwnerDto>(ownerEntity);
+            
+            await _mediator.Publish(new OwnerAddedNotification(createdOwner));
 
             return CreatedAtRoute("OwnerById", new { id = createdOwner.Id }, createdOwner);
             
