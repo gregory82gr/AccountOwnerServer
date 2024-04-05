@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    internal class OwnerRepositoryAsync :RepositoryBase<Owner>, IOwnerRepositoryAsync
+    public class OwnerRepositoryAsync :RepositoryBase<Owner>, IOwnerRepositoryAsync
     {
         public OwnerRepositoryAsync(RepositoryContext repositoryContext)
        : base(repositoryContext)

@@ -1,14 +1,20 @@
 using AccountOwnerServer.Extensions;
+using AccountOwnerServer.Owners.Queries;
+using AccountOwnerServer.Owners.QueryHandlers;
 using Contracts;
 using Entities;
+using Entities.MongoModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NLog;
 using Repository;
+using System.Reflection;
 using System.Text;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,11 +24,22 @@ builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
 builder.Services.ConfigureLoggerService();
 builder.Services.ConfigureMySqlContext(builder.Configuration);
+
 builder.Services.ConfigureRepositoryWrapper();
 builder.Services.ConfigureRepositoryWrapperAsync();
 builder.Services.ConfigureSwagger();
 builder.Services.AddAutoMapper(typeof(Program));
 
+
+//builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<GetOwnerByIdHandler>());
+
+
+var mongoDBSettings = builder.Configuration.GetSection("MongoDBSettings").Get<MongoDBSettings>();
+builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDBSettings"));
+
+//builder.Services.AddDbContext<RepositoryMongoContext>(options =>
+//options.UseMongoDB(mongoDBSettings.AtlasURI ?? "", mongoDBSettings.DatabaseName ?? ""));
 
 
 builder.Services.AddAuthentication(opt => {
