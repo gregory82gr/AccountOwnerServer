@@ -136,7 +136,6 @@ namespace AccountOwnerServer.Controllers
                 }
 
                 _mapper.Map(account, accountEntity);
-                
 
                 await _mediator.Send(new UpdateAccountCommand(accountEntity));
 

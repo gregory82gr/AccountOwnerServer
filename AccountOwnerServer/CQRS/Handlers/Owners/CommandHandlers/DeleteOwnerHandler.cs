@@ -7,12 +7,12 @@ namespace AccountOwnerServer.Handlers.Owners.CommandHandlers
 
     public class DeleteOwnerHandler : IRequestHandler<DeleteOwnerCommand>
     {
-        private readonly IRepositoryWrapperAsync _ownerRepository;
-        public DeleteOwnerHandler(IRepositoryWrapperAsync ownerRepository) => _ownerRepository = ownerRepository;
+        private IUnitOfWork _unitOfWork;
+        public DeleteOwnerHandler(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
         public async Task Handle(DeleteOwnerCommand request, CancellationToken cancellationToken)
         {
-            _ownerRepository.Owner.DeleteOwner(request.owner);
-            await _ownerRepository.SaveAsync(cancellationToken);
+            _unitOfWork.RepositoryWrapper.Owner.DeleteOwner(request.owner);
+            await _unitOfWork.RepositoryWrapper.SaveAsync(cancellationToken);
             return;
         }
     }

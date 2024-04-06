@@ -9,7 +9,6 @@ namespace AccountOwnerServer.CQRS.Handlers.Accounts.QueryHandlers
     public class GetAccountByIdHandler : IRequestHandler<GetAccountByIdQuery, Account>
     {
         private readonly IRepositoryWrapperAsync _accountRepository;
-
         public GetAccountByIdHandler(IRepositoryWrapperAsync accountRepository)
         {
             _accountRepository = accountRepository;

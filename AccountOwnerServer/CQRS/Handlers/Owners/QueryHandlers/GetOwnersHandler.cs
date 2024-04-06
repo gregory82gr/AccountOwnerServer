@@ -6,10 +6,10 @@ using MediatR;
 namespace AccountOwnerServer.Handlers.Owners.QueryHandlers
 {
     public class GetOwnersHandler : IRequestHandler<GetOwnersQuery, IEnumerable<Owner>>
-    {
-        private readonly IRepositoryWrapperAsync _ownerRepository;
-        public GetOwnersHandler(IRepositoryWrapperAsync ownerRepository) => _ownerRepository = ownerRepository;
+    { 
+        private IUnitOfWork _unitOfWork;
+        public GetOwnersHandler(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
         public async Task<IEnumerable<Owner>> Handle(GetOwnersQuery request,
-            CancellationToken cancellationToken) => await _ownerRepository.Owner.GetAllOwnersAsync();
+            CancellationToken cancellationToken) => await _unitOfWork.RepositoryWrapper.Owner.GetAllOwnersAsync();
     }
 }

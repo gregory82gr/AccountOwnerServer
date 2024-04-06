@@ -12,14 +12,14 @@ namespace AccountOwnerServer.Controllers
     public class OwnerAsyncController : ControllerBase
     {
         private ILoggerManager _logger;
-        private IRepositoryWrapperAsync _repository;
         private IMapper _mapper;
+        private IUnitOfWork _unitOfWork;
 
-        public OwnerAsyncController(ILoggerManager logger, IRepositoryWrapperAsync repository, IMapper mapper)
+        public OwnerAsyncController(ILoggerManager logger, IMapper mapper, IUnitOfWork unitOfWork)
         {
             _logger = logger;
-            _repository = repository;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -27,7 +27,7 @@ namespace AccountOwnerServer.Controllers
         {
             try
             {
-                var owners = await _repository.Owner.GetAllOwnersAsync();
+                var owners = await _unitOfWork.RepositoryWrapper.Owner.GetAllOwnersAsync();
                 _logger.LogInfo($"Returned all owners from database.");
                 var ownersResult = _mapper.Map<IEnumerable<OwnerDto>>(owners);
                 return Ok(ownersResult);
@@ -44,7 +44,7 @@ namespace AccountOwnerServer.Controllers
         {
             try
             {
-                var owner = await _repository.Owner.GetOwnerByIdAsync(id);
+                var owner = await _unitOfWork.RepositoryWrapper.Owner.GetOwnerByIdAsync(id);
                 if (owner == null)
                 {
                     _logger.LogError($"Owner with id: {id}, hasn't been found in db.");
@@ -70,7 +70,7 @@ namespace AccountOwnerServer.Controllers
         {
             try
             {
-                var owner = await _repository.Owner.GetOwnerWithDetailsAsync(id);
+                var owner = await _unitOfWork.RepositoryWrapper.Owner.GetOwnerWithDetailsAsync(id);
                 if (owner == null)
                 {
                     _logger.LogError($"Owner with id: {id}, hasn't been found in db.");
@@ -111,8 +111,8 @@ namespace AccountOwnerServer.Controllers
 
                 var ownerEntity = _mapper.Map<Owner>(owner);
 
-                _repository.Owner.CreateOwner(ownerEntity);
-                await _repository.SaveAsync(cancellationToken);
+                _unitOfWork.RepositoryWrapper.Owner.CreateOwner(ownerEntity);
+                await _unitOfWork.RepositoryWrapper.SaveAsync(cancellationToken);
 
                 var createdOwner = _mapper.Map<OwnerDto>(ownerEntity);
 
@@ -143,7 +143,7 @@ namespace AccountOwnerServer.Controllers
                     return BadRequest("Invalid model object");
                 }
 
-                var ownerEntity = await _repository.Owner.GetOwnerByIdAsync(id);
+                var ownerEntity = await _unitOfWork.RepositoryWrapper.Owner.GetOwnerByIdAsync(id);
                 if (ownerEntity == null)
                 {
                     _logger.LogError($"Owner with id: {id}, hasn't been found in db.");
@@ -152,8 +152,8 @@ namespace AccountOwnerServer.Controllers
 
                 _mapper.Map(owner, ownerEntity);
 
-                _repository.Owner.UpdateOwner(ownerEntity);
-                await _repository.SaveAsync(cancellationToken);
+                _unitOfWork.RepositoryWrapper.Owner.UpdateOwner(ownerEntity);
+                await _unitOfWork.RepositoryWrapper.SaveAsync(cancellationToken);
 
                 return NoContent();
             }
@@ -170,22 +170,22 @@ namespace AccountOwnerServer.Controllers
             try
             {
                 System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken);
-                var owner = await _repository.Owner.GetOwnerByIdAsync(id);
+                var owner = await _unitOfWork.RepositoryWrapper.Owner.GetOwnerByIdAsync(id);
                 if (owner == null)
                 {
                     _logger.LogError($"Owner with id: {id}, hasn't been found in db.");
                     return NotFound();
                 }
 
-                var accounts = await _repository.Account.AccountsByOwnerAsync(id);
+                var accounts = await _unitOfWork.RepositoryWrapper.Account.AccountsByOwnerAsync(id);
                 if (accounts.Any())
                 {
                     _logger.LogError($"Cannot delete owner with id: {id}. It has related accounts. Delete those accounts first");
                     return BadRequest("Cannot delete owner. It has related accounts. Delete those accounts first");
                 }
 
-                _repository.Owner.DeleteOwner(owner);
-                await _repository.SaveAsync(cancellationToken);
+                _unitOfWork.RepositoryWrapper.Owner.DeleteOwner(owner);
+                await _unitOfWork.RepositoryWrapper.SaveAsync(cancellationToken);
 
                 return NoContent();
             }
