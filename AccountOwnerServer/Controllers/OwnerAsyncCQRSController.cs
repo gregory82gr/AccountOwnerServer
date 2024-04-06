@@ -120,17 +120,14 @@ namespace AccountOwnerServer.Controllers
             
             await _mediator.Publish(new OwnerAddedNotification(createdOwner));
 
-            return CreatedAtRoute("OwnerById", new { id = createdOwner.Id }, createdOwner);
-            
-            
+            return CreatedAtRoute("OwnerById", new { id = createdOwner.Id }, createdOwner);     
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOwnerAsync(Guid id, [FromBody] OwnerForUpdateDto owner)
         {
             try
-            {
-               
+            {     
                 if (owner == null)
                 {
                     _logger.LogError("Owner object sent from client is null.");
