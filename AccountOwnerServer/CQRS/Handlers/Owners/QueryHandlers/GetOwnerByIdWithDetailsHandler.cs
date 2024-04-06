@@ -5,7 +5,7 @@ using MediatR;
 
 namespace AccountOwnerServer.CQRS.Handlers.Owners.QueryHandlers
 {
-    public class GetOwnerByIdWithDetailsHandler : IRequestHandler<GetQwnerByIdWithDetails, Owner>
+    public class GetOwnerByIdWithDetailsHandler : IRequestHandler<GetQwnerByIdWithDetailsQuery, Owner>
     {
         private readonly IRepositoryWrapperAsync _ownerRepository;
 
@@ -14,7 +14,7 @@ namespace AccountOwnerServer.CQRS.Handlers.Owners.QueryHandlers
             _ownerRepository = ownerRepository;
         }
 
-        public async Task<Owner> Handle(GetQwnerByIdWithDetails request, CancellationToken cancellationToken)
+        public async Task<Owner> Handle(GetQwnerByIdWithDetailsQuery request, CancellationToken cancellationToken)
         {
             return await _ownerRepository.Owner.GetOwnerWithDetailsAsync(request.Id);
         }

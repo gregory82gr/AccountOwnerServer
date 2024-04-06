@@ -6,7 +6,7 @@ using System;
 
 namespace AccountOwnerServer.Handlers.Owners.QueryHandlers
 {
-    public class GetOwnerByIdHandler : IRequestHandler<GetOwnerById, Owner>
+    public class GetOwnerByIdHandler : IRequestHandler<GetOwnerByIdQuery, Owner>
     {
         private readonly IRepositoryWrapperAsync _ownerRepository;
 
@@ -15,7 +15,7 @@ namespace AccountOwnerServer.Handlers.Owners.QueryHandlers
             _ownerRepository = ownerRepository;
         }
 
-        public async Task<Owner> Handle(GetOwnerById request, CancellationToken cancellationToken)
+        public async Task<Owner> Handle(GetOwnerByIdQuery request, CancellationToken cancellationToken)
         {
             return await _ownerRepository.Owner.GetOwnerByIdAsync(request.Id);
         }

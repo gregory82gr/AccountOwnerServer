@@ -1,4 +1,4 @@
-﻿using AccountOwnerServer.CQRS.Commands.Owners.Commands;
+﻿using AccountOwnerServer.CQRS.Commands.Owners;
 using Contracts;
 using MediatR;
 

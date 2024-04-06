@@ -3,7 +3,7 @@ using Entities.DataTransferObjects;
 using Entities.Models;
 using System.Linq;
 
-namespace AccountOwnerServer
+namespace AccountOwnerServer.Helpers
 {
     public class MappingProfile : Profile
     {
@@ -15,7 +15,7 @@ namespace AccountOwnerServer
 
             CreateMap<OwnerForUpdateDto, Owner>();
 
-            CreateMap<Account, AccountDto>().ForMember(dest=>dest.Owner,act=>act.MapFrom(src=>src.Owner.Name));
+            CreateMap<Account, AccountDto>().ForMember(dest => dest.Owner, act => act.MapFrom(src => src.Owner.Name));
 
             CreateMap<AccountForCreationDto, Account>();
 
