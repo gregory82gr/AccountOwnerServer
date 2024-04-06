@@ -16,14 +16,12 @@ namespace AccountOwnerServer.Controllers
     {
         private readonly IMediator _mediator;
         private ILoggerManager _logger;
-        private IRepositoryWrapperAsync _repository;
         private IMapper _mapper;
         private readonly OwnerIdValidation _validation;
 
-        public AccountAsyncCQRSController(ILoggerManager logger, IRepositoryWrapperAsync repository, IMapper mapper, IMediator mediator)
+        public AccountAsyncCQRSController(ILoggerManager logger, IMapper mapper, IMediator mediator)
         {
             _logger = logger;
-            _repository = repository;
             _mapper = mapper;
             _mediator = mediator;
             _validation = new OwnerIdValidation();
@@ -124,8 +122,8 @@ namespace AccountOwnerServer.Controllers
                     _logger.LogError("Invalid Account object sent from client.");
                     return BadRequest("Invalid model object");
                 }
-
-                var accountEntity = await _repository.Account.GetAccountByIdAsync(id);
+                var getAccount = new GetAccountByIdQuery { Id = id };
+                var accountEntity = await _mediator.Send(getAccount);
                 if (accountEntity is null)
                 {
                     _logger.LogError($"Account with id: {id}, hasn't been found in db.");
@@ -157,7 +155,8 @@ namespace AccountOwnerServer.Controllers
                     ModelState.AddModelError("AccountNumber", "Account Number is invalid");
                     return BadRequest();
                 }
-                var account = await _repository.Account.GetAccountByIdAsync(id);
+                var getAccount = new GetAccountByIdQuery { Id = id };
+                var account = await _mediator.Send(getAccount);
                 if (account == null)
                 {
                     _logger.LogError($"Account with id: {id}, hasn't been found in db.");

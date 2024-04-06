@@ -7,12 +7,12 @@ namespace AccountOwnerServer.CQRS.Handlers.Accounts.CommandHandlers
 {
     public class DeleteAccountHandler : IRequestHandler<DeleteAccountCommand>
     {
-        private readonly IRepositoryWrapperAsync _accountRepository;
-        public DeleteAccountHandler(IRepositoryWrapperAsync accountRepository) => _accountRepository = accountRepository;
+        private IUnitOfWork _unitOfWork;
+        public DeleteAccountHandler(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
         public async Task Handle(DeleteAccountCommand request, CancellationToken cancellationToken)
         {
-            _accountRepository.Account.DeleteAccount(request.account);
-            await _accountRepository.SaveAsync(cancellationToken);
+            _unitOfWork.RepositoryWrapper.Account.DeleteAccount(request.account);
+            await _unitOfWork.RepositoryWrapper.SaveAsync(cancellationToken);
             return;
         }
     }

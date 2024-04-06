@@ -9,7 +9,6 @@ namespace AccountOwnerServer.CQRS.Handlers.Accounts.QueryHandlers
     {
         private IUnitOfWork _unitOfWork;
         public GetAccountsByOwnerHandler(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
-
         public async Task<IEnumerable<Account>> Handle(GetAccountsByOwnerQuery request, CancellationToken cancellationToken) =>
            await _unitOfWork.RepositoryWrapper.Account.AccountsByOwnerAsync(request.Id);
     }
