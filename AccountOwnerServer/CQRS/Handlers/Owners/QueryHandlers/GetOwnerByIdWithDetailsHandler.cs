@@ -1,4 +1,4 @@
-﻿using AccountOwnerServer.CQRS.Queries.Owners.Queries;
+﻿using AccountOwnerServer.CQRS.Queries.Owners;
 using Contracts;
 using Entities.Models;
 using MediatR;

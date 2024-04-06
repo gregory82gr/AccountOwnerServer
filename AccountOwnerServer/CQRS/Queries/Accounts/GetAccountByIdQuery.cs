@@ -3,7 +3,7 @@ using MediatR;
 
 namespace AccountOwnerServer.CQRS.Queries.Accounts
 {
-    public class GetAccountByIdQuery : IRequest<Account>
+    public record GetAccountByIdQuery : IRequest<Account>
     {
         public Guid Id { get; set; }
     }

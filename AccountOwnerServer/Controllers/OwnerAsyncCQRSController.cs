@@ -1,14 +1,13 @@
 ﻿using AccountOwnerServer.CQRS.Commands.Owners;
 using AccountOwnerServer.CQRS.Notifications;
 using AccountOwnerServer.CQRS.Queries.Accounts;
-using AccountOwnerServer.CQRS.Queries.Owners.Queries;
+using AccountOwnerServer.CQRS.Queries.Owners;
 using AutoMapper;
 using Contracts;
 using Entities.DataTransferObjects;
 using Entities.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Repository;
 
 namespace AccountOwnerServer.Controllers
 {

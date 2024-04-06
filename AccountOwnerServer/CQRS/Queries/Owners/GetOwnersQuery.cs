@@ -2,7 +2,7 @@
 using MediatR;
 using System.Collections;
 
-namespace AccountOwnerServer.CQRS.Queries.Owners.Queries
+namespace AccountOwnerServer.CQRS.Queries.Owners
 {
     public record GetOwnersQuery() : IRequest<IEnumerable<Owner>>;
 }

@@ -1,7 +1,5 @@
 ﻿using AccountOwnerServer.CQRS.Commands.Accounts;
-using AccountOwnerServer.CQRS.Commands.Owners;
 using AccountOwnerServer.CQRS.Queries.Accounts;
-using AccountOwnerServer.CQRS.Queries.Owners.Queries;
 using AccountOwnerServer.Validation;
 using AutoMapper;
 using Contracts;
@@ -9,7 +7,6 @@ using Entities.DataTransferObjects;
 using Entities.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 
 namespace AccountOwnerServer.Controllers
 {
