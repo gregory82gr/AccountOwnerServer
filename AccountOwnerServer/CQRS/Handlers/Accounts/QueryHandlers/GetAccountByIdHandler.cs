@@ -7,14 +7,10 @@ namespace AccountOwnerServer.CQRS.Handlers.Accounts.QueryHandlers
 {
     public class GetAccountByIdHandler : IRequestHandler<GetAccountByIdQuery, Account>
     {
-        private readonly IRepositoryWrapperAsync _accountRepository;
-        public GetAccountByIdHandler(IRepositoryWrapperAsync accountRepository)
-        {
-            _accountRepository = accountRepository;
-        }
-        public async Task<Account> Handle(GetAccountByIdQuery request, CancellationToken cancellationToken)
-        {
-            return await _accountRepository.Account.GetAccountByIdAsync(request.Id);
-        }
+        private IUnitOfWork _unitOfWork;
+        public GetAccountByIdHandler(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+        public async Task<Account> Handle(GetAccountByIdQuery request, CancellationToken cancellationToken)=>
+                await _unitOfWork.RepositoryWrapper.Account.GetAccountByIdAsync(request.Id);
+        
     }
 }

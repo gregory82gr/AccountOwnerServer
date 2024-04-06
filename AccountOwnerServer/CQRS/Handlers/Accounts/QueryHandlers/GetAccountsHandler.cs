@@ -7,9 +7,9 @@ namespace AccountOwnerServer.CQRS.Handlers.Accounts.QueryHandlers
 {
     public class GetAccountsHandler : IRequestHandler<GetAccountsQuery, IEnumerable<Account>>
     {
-        private readonly IRepositoryWrapperAsync _accountRepository;
-        public GetAccountsHandler(IRepositoryWrapperAsync accountRepository) => _accountRepository = accountRepository;
+        private IUnitOfWork _unitOfWork;
+        public GetAccountsHandler(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
         public async Task<IEnumerable<Account>> Handle(GetAccountsQuery request,
-            CancellationToken cancellationToken) => await _accountRepository.Account.GetAllAccountsAsync();
+            CancellationToken cancellationToken) => await _unitOfWork.RepositoryWrapper.Account.GetAllAccountsAsync();
     }
 }

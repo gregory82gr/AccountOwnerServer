@@ -7,13 +7,12 @@ namespace AccountOwnerServer.CQRS.Handlers.Accounts.CommandHandlers
 {
     public class CreateAccountHandler : IRequestHandler<CreateAccountCommand>
     {
-        private readonly IRepositoryWrapperAsync _accountRepository;
-        public CreateAccountHandler(IRepositoryWrapperAsync accountRepository) => _accountRepository = accountRepository;
-
+        private IUnitOfWork _unitOfWork;
+        public CreateAccountHandler(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
         public async Task Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
-            _accountRepository.Account.CreateAccount(request.account);
-            await _accountRepository.SaveAsync(cancellationToken);
+            _unitOfWork.RepositoryWrapper.Account.CreateAccount(request.account);
+            await _unitOfWork.RepositoryWrapper.SaveAsync(cancellationToken);
             return;
         }
     }

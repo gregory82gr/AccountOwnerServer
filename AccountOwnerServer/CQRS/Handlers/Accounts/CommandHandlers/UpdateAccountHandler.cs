@@ -8,13 +8,15 @@ namespace AccountOwnerServer.CQRS.Handlers.Accounts.CommandHandlers
     
     public class UpdateAccountHandler : IRequestHandler<UpdateAccountCommand>
     {
-        private readonly IRepositoryWrapperAsync _accountRepository;
-        public UpdateAccountHandler(IRepositoryWrapperAsync accountRepository) => _accountRepository = accountRepository;
+        private IUnitOfWork _unitOfWork;
+        public UpdateAccountHandler(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+        
         public async Task Handle(UpdateAccountCommand request, CancellationToken cancellationToken)
         {
-            _accountRepository.Account.UpdateAccount(request.account);
-            await _accountRepository.SaveAsync(cancellationToken);
+            _unitOfWork.RepositoryWrapper.Account.UpdateAccount(request.account);
+            await _unitOfWork.RepositoryWrapper.SaveAsync(cancellationToken);
             return;
         }
     }
 }
+    
