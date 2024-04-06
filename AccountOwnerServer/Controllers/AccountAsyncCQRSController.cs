@@ -147,8 +147,7 @@ namespace AccountOwnerServer.Controllers
         public async Task<IActionResult> DeleteAccountAsync(Guid id)
         {
             try
-            {
-               
+            {    
                 if (!_validation.IsValid(id.ToString()))
                 {
                     _logger.LogError($"Account with id: {id}, hasn't been found in db.");
@@ -173,5 +172,6 @@ namespace AccountOwnerServer.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
     }
 }
