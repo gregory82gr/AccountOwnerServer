@@ -13,7 +13,7 @@ namespace Repository
     {
         private RepositoryContext _repoContext;
         private IOwnerRepositoryAsync _owner;
-        private IAccountRepository _account;
+        private IAccountRepositoryAsync _account;
         private IUserInfoRepository _userInfo;
         public IOwnerRepositoryAsync Owner
         {
@@ -27,13 +27,13 @@ namespace Repository
             }
         }
 
-        public IAccountRepository Account
+        public IAccountRepositoryAsync Account
         {
             get
             {
                 if (_account == null)
                 {
-                    _account = new AccountRepository(_repoContext);
+                    _account = new AccountRepositoryAsync(_repoContext);
                 }
                 return _account;
             }
