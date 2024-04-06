@@ -1,8 +1,8 @@
-﻿using AccountOwnerServer.Owners.Commands;
+﻿using AccountOwnerServer.CQRS.Commands.Owners.Commands;
 using Contracts;
 using MediatR;
 
-namespace AccountOwnerServer.Owners.CommandHandlers
+namespace AccountOwnerServer.Handlers.Owners.CommandHandlers
 {
     public class UpdateOwnerHandler : IRequestHandler<UpdateOwnerCommand>
     {

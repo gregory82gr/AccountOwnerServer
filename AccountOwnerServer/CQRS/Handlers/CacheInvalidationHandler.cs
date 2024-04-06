@@ -1,10 +1,10 @@
-﻿using AccountOwnerServer.Notifications;
+﻿using AccountOwnerServer.CQRS.Notifications;
 using Contracts;
 using MediatR;
 
 namespace AccountOwnerServer.Handlers
 {
-   
+
     public class CacheInvalidationHandler : INotificationHandler<OwnerAddedNotification>
     {
         private readonly IRepositoryWrapperAsync _ownerRepository;

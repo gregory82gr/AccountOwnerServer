@@ -1,7 +1,7 @@
 ﻿using Entities.Models;
 using MediatR;
 
-namespace AccountOwnerServer.Owners.Commands
+namespace AccountOwnerServer.CQRS.Commands.Owners.Commands
 {
     public record DeleteOwnerCommand(Owner owner) : IRequest;
 }

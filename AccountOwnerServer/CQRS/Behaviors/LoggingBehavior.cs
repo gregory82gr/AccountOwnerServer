@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace AccountOwnerServer.Behaviors
+namespace AccountOwnerServer.CQRS.Behaviors
 {
     public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>

@@ -1,6 +1,6 @@
-﻿using AccountOwnerServer.Notifications;
-using AccountOwnerServer.Owners.Commands;
-using AccountOwnerServer.Owners.Queries;
+﻿using AccountOwnerServer.CQRS.Commands.Owners.Commands;
+using AccountOwnerServer.CQRS.Notifications;
+using AccountOwnerServer.CQRS.Queries.Owners.Queries;
 using AutoMapper;
 using Contracts;
 using Entities.DataTransferObjects;

@@ -1,4 +1,4 @@
-﻿using AccountOwnerServer.Notifications;
+﻿using AccountOwnerServer.CQRS.Notifications;
 using Contracts;
 using MediatR;
 

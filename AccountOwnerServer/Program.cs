@@ -1,22 +1,15 @@
+using AccountOwnerServer.CQRS.Behaviors;
 using AccountOwnerServer.Extensions;
-using AccountOwnerServer.Owners.Queries;
-using AccountOwnerServer.Owners.QueryHandlers;
+using AccountOwnerServer.Handlers.Owners.QueryHandlers;
 using Contracts;
-using Entities;
 using Entities.MongoModels;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.IdentityModel.Tokens;
 using NLog;
 using Repository;
-using System.Reflection;
 using System.Text;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver;
-using Microsoft.EntityFrameworkCore;
-using AccountOwnerServer.Behaviors;
-using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
