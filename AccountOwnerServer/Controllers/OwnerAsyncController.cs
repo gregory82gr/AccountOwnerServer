@@ -177,7 +177,8 @@ namespace AccountOwnerServer.Controllers
                     return NotFound();
                 }
 
-                if (_repository.Account.AccountsByOwner(id).Any())
+                var accounts = await _repository.Account.AccountsByOwnerAsync(id);
+                if (accounts.Any())
                 {
                     _logger.LogError($"Cannot delete owner with id: {id}. It has related accounts. Delete those accounts first");
                     return BadRequest("Cannot delete owner. It has related accounts. Delete those accounts first");

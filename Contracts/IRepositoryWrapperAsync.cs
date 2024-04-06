@@ -9,7 +9,7 @@ namespace Contracts
     public interface IRepositoryWrapperAsync
     {
         IOwnerRepositoryAsync Owner { get; }
-        IAccountRepository Account { get; }
+        IAccountRepositoryAsync Account { get; }
         IUserInfoRepository UserInfo { get; }
         Task SaveAsync(CancellationToken cancellationToken);
     }

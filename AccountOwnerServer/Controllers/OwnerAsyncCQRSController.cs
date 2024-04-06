@@ -45,6 +45,33 @@ namespace AccountOwnerServer.Controllers
             return Ok(ownerResult);
         }
 
+        [HttpGet("{id}/account")]
+        public async Task<IActionResult> GetOwnerWithDetailsAsync(Guid id)
+        {
+            try
+            {
+                var getOwner = new GetQwnerByIdWithDetails { Id = id };
+                var owner = await _mediator.Send(getOwner);
+                if (owner == null)
+                {
+                    _logger.LogError($"Owner with id: {id}, hasn't been found in db.");
+                    return NotFound();
+                }
+                else
+                {
+                    _logger.LogInfo($"Returned owner with details for id: {id}");
+
+                    var ownerResult = _mapper.Map<OwnerDto>(owner);
+                    return Ok(ownerResult);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside GetOwnerWithDetails action: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
         [HttpPost]
         public async Task<ActionResult> CreateOwner([FromBody] OwnerForCreationDto owner)
         {
@@ -125,7 +152,7 @@ namespace AccountOwnerServer.Controllers
                     return NotFound();
                 }
 
-                if (_repository.Account.AccountsByOwner(id).Any())
+                if (await _repository.Account.AccountsByOwnerAsync(id) != null)
                 {
                     _logger.LogError($"Cannot delete owner with id: {id}. It has related accounts. Delete those accounts first");
                     return BadRequest("Cannot delete owner. It has related accounts. Delete those accounts first");
