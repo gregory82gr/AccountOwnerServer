@@ -1,4 +1,4 @@
-﻿using AccountOwnerServer.CQRS.Commands.Owners.Commands;
+﻿using AccountOwnerServer.CQRS.Commands.Owners;
 using AccountOwnerServer.CQRS.Notifications;
 using AccountOwnerServer.CQRS.Queries.Owners.Queries;
 using AutoMapper;
@@ -15,7 +15,6 @@ namespace AccountOwnerServer.Controllers
     public class OwnerAsyncCQRSController : ControllerBase
     {
         private readonly IMediator _mediator;
-
         private ILoggerManager _logger;
         private IRepositoryWrapperAsync _repository;
         private IMapper _mapper;
@@ -38,7 +37,7 @@ namespace AccountOwnerServer.Controllers
         [HttpGet("{id}", Name = "OwnerByIdAsyncCQRS")]
         public async Task<IActionResult> GetOwnerByIdAsync(Guid id)
         {
-            var getOwner = new GetOwnerById { Id = id };
+            var getOwner = new GetOwnerByIdQuery { Id = id };
             var owner = await _mediator.Send(getOwner);
 
             var ownerResult = _mapper.Map<OwnerDto>(owner);
@@ -50,7 +49,7 @@ namespace AccountOwnerServer.Controllers
         {
             try
             {
-                var getOwner = new GetQwnerByIdWithDetails { Id = id };
+                var getOwner = new GetQwnerByIdWithDetailsQuery { Id = id };
                 var owner = await _mediator.Send(getOwner);
                 if (owner == null)
                 {
