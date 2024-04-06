@@ -1,9 +1,9 @@
-﻿using AccountOwnerServer.Owners.Queries;
+﻿using AccountOwnerServer.CQRS.Queries.Owners.Queries;
 using Contracts;
 using Entities.Models;
 using MediatR;
 
-namespace AccountOwnerServer.Owners.QueryHandlers
+namespace AccountOwnerServer.Handlers.Owners.QueryHandlers
 {
     public class GetOwnersHandler : IRequestHandler<GetOwnersQuery, IEnumerable<Owner>>
     {

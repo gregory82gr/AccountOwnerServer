@@ -1,10 +1,10 @@
-﻿using AccountOwnerServer.Owners.Commands;
+﻿using AccountOwnerServer.CQRS.Commands.Owners.Commands;
 using Contracts;
 using MediatR;
 
-namespace AccountOwnerServer.Owners.CommandHandlers
+namespace AccountOwnerServer.Handlers.Owners.CommandHandlers
 {
-   
+
     public class DeleteOwnerHandler : IRequestHandler<DeleteOwnerCommand>
     {
         private readonly IRepositoryWrapperAsync _ownerRepository;

@@ -1,8 +1,8 @@
-﻿using AccountOwnerServer.Owners.Commands;
+﻿using AccountOwnerServer.CQRS.Commands.Owners.Commands;
 using Contracts;
 using MediatR;
 
-namespace AccountOwnerServer.Owners.CommandHandlers
+namespace AccountOwnerServer.Handlers.Owners.CommandHandlers
 {
     public class CreateOwnerHandler : IRequestHandler<CreateOwnerCommand>
     {
@@ -11,7 +11,7 @@ namespace AccountOwnerServer.Owners.CommandHandlers
 
         public async Task Handle(CreateOwnerCommand request, CancellationToken cancellationToken)
         {
-              _ownerRepository.Owner.CreateOwner(request.Owner);
+            _ownerRepository.Owner.CreateOwner(request.Owner);
             await _ownerRepository.SaveAsync(cancellationToken);
             return;
         }
