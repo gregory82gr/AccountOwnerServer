@@ -24,7 +24,7 @@ builder.Services.ConfigureRepositoryWrapper();
 builder.Services.ConfigureRepositoryWrapperAsync();
 builder.Services.ConfigureSwagger();
 builder.Services.AddAutoMapper(typeof(Program));
-
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 //builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<GetOwnerByIdHandler>());

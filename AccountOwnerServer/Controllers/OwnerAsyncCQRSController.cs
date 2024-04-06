@@ -1,5 +1,6 @@
 ﻿using AccountOwnerServer.CQRS.Commands.Owners;
 using AccountOwnerServer.CQRS.Notifications;
+using AccountOwnerServer.CQRS.Queries.Accounts;
 using AccountOwnerServer.CQRS.Queries.Owners.Queries;
 using AutoMapper;
 using Contracts;
@@ -7,6 +8,7 @@ using Entities.DataTransferObjects;
 using Entities.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Repository;
 
 namespace AccountOwnerServer.Controllers
 {
@@ -16,13 +18,11 @@ namespace AccountOwnerServer.Controllers
     {
         private readonly IMediator _mediator;
         private ILoggerManager _logger;
-        private IRepositoryWrapperAsync _repository;
         private IMapper _mapper;
 
-        public OwnerAsyncCQRSController(ILoggerManager logger, IRepositoryWrapperAsync repository, IMapper mapper, IMediator mediator)
+        public OwnerAsyncCQRSController(ILoggerManager logger, IMapper mapper, IMediator mediator)
         {
             _logger = logger;
-            _repository = repository;
             _mapper = mapper;
             _mediator = mediator;
         }
@@ -30,18 +30,45 @@ namespace AccountOwnerServer.Controllers
         [HttpGet]
         public async Task<IActionResult> GetOwnersAsync()
         {
-            var owners = await _mediator.Send(new GetOwnersQuery());
-            return Ok(owners);
+            try
+            {
+                var owners = await _mediator.Send(new GetOwnersQuery());
+                _logger.LogInfo($"Returned all owners from database.");
+                var ownersResult = _mapper.Map<IEnumerable<OwnerDto>>(owners);
+                return Ok(ownersResult);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside GetOwnersAsync action: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet("{id}", Name = "OwnerByIdAsyncCQRS")]
         public async Task<IActionResult> GetOwnerByIdAsync(Guid id)
         {
-            var getOwner = new GetOwnerByIdQuery { Id = id };
-            var owner = await _mediator.Send(getOwner);
+            try
+            {
+                var getOwner = new GetOwnerByIdQuery { Id = id };
+                var owner = await _mediator.Send(getOwner);
+                if (owner == null)
+                {
+                    _logger.LogError($"Owner with id: {id}, hasn't been found in db.");
+                    return NotFound();
+                }
+                else
+                {
+                    _logger.LogInfo($"Returned owner with id: {id}");
 
-            var ownerResult = _mapper.Map<OwnerDto>(owner);
-            return Ok(ownerResult);
+                    var ownerResult = _mapper.Map<OwnerDto>(owner);
+                    return Ok(ownerResult);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside GetOwnerByIdAsync action: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet("{id}/account")]
@@ -99,7 +126,6 @@ namespace AccountOwnerServer.Controllers
             
         }
 
-
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOwnerAsync(Guid id, [FromBody] OwnerForUpdateDto owner)
         {
@@ -117,8 +143,8 @@ namespace AccountOwnerServer.Controllers
                     _logger.LogError("Invalid owner object sent from client.");
                     return BadRequest("Invalid model object");
                 }
-
-                var ownerEntity = await _repository.Owner.GetOwnerByIdAsync(id);
+                var getOwner = new GetOwnerByIdQuery { Id = id };
+                var ownerEntity= await _mediator.Send(getOwner);
                 if (ownerEntity == null)
                 {
                     _logger.LogError($"Owner with id: {id}, hasn't been found in db.");
@@ -144,14 +170,16 @@ namespace AccountOwnerServer.Controllers
         {
             try
             {
-                var owner = await _repository.Owner.GetOwnerByIdAsync(id);
+                var getOwner = new GetOwnerByIdQuery { Id = id };
+                var owner = await _mediator.Send(getOwner);
                 if (owner == null)
                 {
                     _logger.LogError($"Owner with id: {id}, hasn't been found in db.");
                     return NotFound();
                 }
-
-                if (await _repository.Account.AccountsByOwnerAsync(id) != null)
+                var getAccounts = new GetAccountsByOwnerQuery { Id = id };
+                var accounts = await _mediator.Send(getAccounts);
+                if (accounts.Any())
                 {
                     _logger.LogError($"Cannot delete owner with id: {id}. It has related accounts. Delete those accounts first");
                     return BadRequest("Cannot delete owner. It has related accounts. Delete those accounts first");

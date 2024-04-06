@@ -6,13 +6,12 @@ namespace AccountOwnerServer.Handlers.Owners.CommandHandlers
 {
     public class CreateOwnerHandler : IRequestHandler<CreateOwnerCommand>
     {
-        private readonly IRepositoryWrapperAsync _ownerRepository;
-        public CreateOwnerHandler(IRepositoryWrapperAsync ownerRepository) => _ownerRepository = ownerRepository;
-
+        private IUnitOfWork _unitOfWork;
+        public CreateOwnerHandler(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
         public async Task Handle(CreateOwnerCommand request, CancellationToken cancellationToken)
         {
-            _ownerRepository.Owner.CreateOwner(request.Owner);
-            await _ownerRepository.SaveAsync(cancellationToken);
+            _unitOfWork.RepositoryWrapper.Owner.CreateOwner(request.Owner);
+            await _unitOfWork.RepositoryWrapper.SaveAsync(cancellationToken);
             return;
         }
     }
