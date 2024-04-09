@@ -28,7 +28,7 @@ namespace Repository
         public Owner GetOwnerWithDetails(Guid ownerId)
         {
             return FindByCondition(owner => owner.Id.Equals(ownerId))
-                .Include(ac => ac.Accounts)
+                .Include(ac => ac.Accounts).ThenInclude(x => x.Transactions)
                 .FirstOrDefault();
         }
 

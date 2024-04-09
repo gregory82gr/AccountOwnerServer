@@ -12,6 +12,7 @@ namespace Entities
 
         public DbSet<Owner>? Owners { get; set; }
         public DbSet<Account>? Accounts { get; set; }
+        public DbSet<Transaction>? Transactions { get; set; }
         public DbSet<UserInfo>? UserInfos { get; set; }
 
 

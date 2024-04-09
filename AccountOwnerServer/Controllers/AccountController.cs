@@ -75,6 +75,32 @@ namespace AccountOwnerServer.Controllers
             }
         }
 
+        [HttpGet("{id}/transaction")]
+        public IActionResult GetAccountWithDetails(Guid id)
+        {
+            try
+            {
+                var account = _repository.Account.GetAccountWithDetails(id);
+                if (account == null)
+                {
+                    _logger.LogError($"Owner Account id: {id}, hasn't been found in db.");
+                    return NotFound();
+                }
+                else
+                {
+                    _logger.LogInfo($"Returned Account with details for id: {id}");
+
+                    var accountResult = _mapper.Map<AccountDto>(account);
+                    return Ok(accountResult);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside GetAccountWithDetails action: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
         [HttpPost]
         public IActionResult CreateAccount([FromBody] AccountForCreationDto account)
         {
@@ -93,7 +119,6 @@ namespace AccountOwnerServer.Controllers
                     return BadRequest("Invalid model object");
                 }
                
-
                 var accountEntity = _mapper.Map<Account>(account);
 
                 _repository.Account.CreateAccount(accountEntity);
@@ -109,7 +134,6 @@ namespace AccountOwnerServer.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-
 
         [HttpPut("{id}")]
         public IActionResult UpdateAccount(Guid id, [FromBody] AccountForUpdateDto account)
@@ -149,7 +173,6 @@ namespace AccountOwnerServer.Controllers
             }
         }
 
-
         [HttpDelete("{id}")]
         public IActionResult DeleteAccount(Guid id)
         {
@@ -157,7 +180,7 @@ namespace AccountOwnerServer.Controllers
             {
                 if (!_validation.IsValid(id.ToString()))
                 {
-                    _logger.LogError($"Account with id: {id}, hasn't been found in db.");
+                    _logger.LogError($"Account with id: {id}, is invalid.");
                     ModelState.AddModelError("AccountNumber", "Account Number is invalid");
                     return BadRequest();
                 }
@@ -179,5 +202,6 @@ namespace AccountOwnerServer.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
     }
 }

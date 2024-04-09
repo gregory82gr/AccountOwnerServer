@@ -26,6 +26,12 @@ namespace Repository
         public IEnumerable<Account> AccountsByOwner(Guid ownerId) =>
             FindByCondition(a => a.OwnerId.Equals(ownerId)).ToList();
 
+        public Account GetAccountWithDetails(Guid accountId)
+        {
+            return FindByCondition(account => account.Id.Equals(accountId)).Include("Owner")
+                .Include(ac => ac.Transactions)
+                .FirstOrDefault();
+        }
         public void CreateAccount(Account account) => Create(account);
 
         public void UpdateAccount(Account account) => Update(account);
