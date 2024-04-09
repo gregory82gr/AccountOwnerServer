@@ -3,10 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
 {
-    [Table("account")] 
+    [Table("account")]
+    
     public class Account 
     {
         [Column("AccountId")]
+    
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Date created is required")] 
@@ -15,8 +17,13 @@ namespace Entities.Models
         [Required(ErrorMessage = "Account type is required")] 
         public string? AccountType { get; set; }
 
+        
+        public ICollection<Transaction>? Transactions { get; set; }
+
+
         [ForeignKey(nameof(Owner))]
         public Guid OwnerId { get; set; }
         public Owner? Owner { get; set; }
+
     }
 }

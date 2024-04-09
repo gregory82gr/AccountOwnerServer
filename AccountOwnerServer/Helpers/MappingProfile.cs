@@ -20,6 +20,12 @@ namespace AccountOwnerServer.Helpers
             CreateMap<AccountForCreationDto, Account>();
 
             CreateMap<AccountForUpdateDto, Account>();
+
+            CreateMap<Transaction, TransactionDto>();
+
+            CreateMap<TransactionForCreationDto, Transaction>();
+
+            CreateMap<TransactionForUpdateDto, Transaction>();
         }
     }
 }

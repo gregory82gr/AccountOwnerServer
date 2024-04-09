@@ -9,6 +9,7 @@ namespace Repository
         private RepositoryContext _repoContext; 
         private IOwnerRepository _owner; 
         private IAccountRepository _account;
+        private ITransactionRepository _transaction;
         private IUserInfoRepository _userInfo;
         public IOwnerRepository Owner 
         { 
@@ -34,6 +35,17 @@ namespace Repository
             } 
         }
 
+        public ITransactionRepository Transaction
+        {
+            get
+            {
+                if (_transaction == null)
+                {
+                    _transaction = new TransactionRepository(_repoContext);
+                }
+                return _transaction;
+            }
+        }
         public IUserInfoRepository UserInfo
         {
             get

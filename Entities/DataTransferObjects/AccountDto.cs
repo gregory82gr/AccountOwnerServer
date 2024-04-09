@@ -9,5 +9,7 @@ namespace Entities.DataTransferObjects
         public string? AccountType { get; set; }
         public Guid OwnerId { get; set; }
         public string? Owner { get; set; }
+
+        public IEnumerable<TransactionDto>? Transactions { get; set; }
     }
 }
